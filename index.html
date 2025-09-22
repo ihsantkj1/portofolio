@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="pageTitle">Biodata Interaktif - M. Fathul Ihsan</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Javanese&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Libraries for Interactivity -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark background */
+            color: #c9d1d9; /* Light text */
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100vw;
+            height: 100vh;
+        }
+        .aksara-jawa {
+            font-family: 'Noto Sans Javanese', sans-serif;
+            font-size: 1.25rem;
+        }
+        .arabic-text {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.5rem;
+            line-height: 2;
+        }
+        .glass-card {
+            background: rgba(13, 17, 23, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            border: 1px solid rgba(57, 255, 20, 0.2); /* Neon green border */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+            border-color: rgba(57, 255, 20, 0.4);
+        }
+        .glowing-chart {
+            filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.5)); /* Neon green glow */
+        }
+        .neon-text {
+            color: #39ff14;
+            text-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 40px #00ff00;
+        }
+        .lang-btn {
+            transition: all 0.3s ease;
+        }
+        .lang-btn.active {
+            background-color: #39ff14;
+            color: #0d1117;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.7);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        
+        <!-- Language Switcher -->
+        <div class="fixed top-4 right-4 z-50 flex space-x-2 p-2 bg-black/50 backdrop-blur-sm rounded-full shadow-lg">
+            <button onclick="switchLanguage('id')" class="lang-btn active w-10 h-10 rounded-full font-bold text-sm bg-gray-800 text-gray-200" title="Indonesia">ID</button>
+            <button onclick="switchLanguage('en')" class="lang-btn w-10 h-10 rounded-full font-bold text-sm bg-gray-800 text-gray-200" title="English">EN</button>
+            <button onclick="switchLanguage('jv')" class="lang-btn w-10 h-10 rounded-full font-bold text-sm bg-gray-800 text-gray-200" title="Jawa">JV</button>
+            <button onclick="switchLanguage('ar')" class="lang-btn w-10 h-10 rounded-full font-bold text-sm bg-gray-800 text-gray-200" title="Arabic">AR</button>
+        </div>
+
+        <!-- Header Section -->
+        <header class="text-center py-12">
+            <img src="profil.jpg" alt="Foto M. Fathul Ihsan" class="w-36 h-36 mx-auto rounded-full object-cover border-4 border-gray-800 shadow-xl mb-4" style="border-color: #39ff14;">
+            <h1 class="text-4xl font-bold neon-text">M. Fathul Ihsan</h1>
+            <p class="text-xl mt-2 text-gray-300" data-translate="role">Siswa SMK Ma'arif NU Tirto</p>
+        </header>
+
+        <main class="space-y-12">
+            <!-- Biodata Diri Section -->
+            <section class="glass-card p-6 md:p-8 content-section">
+                <h2 class="text-3xl font-bold mb-6 neon-text border-b-2 border-green-500/20 pb-2" data-translate="sectionTitleBiodata">Biodata Diri</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
+                    <div><strong><span data-translate="bioNameLabel">Nama</span>:</strong> M. Fathul Ihsan</div>
+                    <div><strong><span data-translate="bioDobLabel">Tempat, Tanggal Lahir</span>:</strong> <span data-translate="bioDobValue">Pekalongan, 15 November 2008</span></div>
+                    <div class="md:col-span-2"><strong><span data-translate="bioAddressLabel">Alamat</span>:</strong> <span data-translate="bioAddressValue">Desa Karang Jompo, RT 1 RW 5, Tirto, Pekalongan</span></div>
+                    <div><strong><span data-translate="bioGenderLabel">Jenis Kelamin</span>:</strong> <span data-translate="bioGenderValue">Laki-laki</span></div>
+                    <div><strong><span data-translate="bioReligionLabel">Agama</span>:</strong> <span data-translate="bioReligionValue">Islam</span></div>
+                    <div><strong><span data-translate="bioNationalityLabel">Kewarganegaraan</span>:</strong> <span data-translate="bioNationalityValue">Indonesia</span></div>
+                    <div><strong><span data-translate="bioStatusLabel">Status</span>:</strong> <span data-translate="bioStatusValue">Pelajar</span></div>
+                    <div><strong>Email:</strong> isanfathulxxyy@gmail.com</div>
+                    <div><strong><span data-translate="bioPhoneLabel">No. Telepon</span>:</strong> 08961831xxyy</div>
+                </div>
+            </section>
+
+            <!-- Pendidikan Section -->
+            <section class="glass-card p-6 md:p-8 content-section">
+                <h2 class="text-3xl font-bold mb-6 neon-text border-b-2 border-green-500/20 pb-2" data-translate="sectionTitlePendidikan">Pendidikan</h2>
+                <ul class="space-y-4 list-inside text-gray-300">
+                    <li class="flex items-start">
+                        <span class="text-green-400 mr-3 mt-1">&#9889;</span>
+                        <div>
+                            <p class="font-semibold" data-translate="eduSD">SDN Karang Jompo</p>
+                            <p class="text-sm text-gray-400">(2015 - 2021)</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-400 mr-3 mt-1">&#9889;</span>
+                         <div>
+                            <p class="font-semibold" data-translate="eduSMP">SMPN 3 Tirto</p>
+                            <p class="text-sm text-gray-400">(2021 - 2024)</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-400 mr-3 mt-1">&#9889;</span>
+                        <div>
+                            <p class="font-semibold" data-translate="eduSMK">SMK Ma'arif NU Tirto</p>
+                            <p class="text-sm text-gray-400" data-translate="eduSMKYear">(2024)</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            
+            <!-- Keterampilan & Riwayat Hidup Section -->
+            <div class="grid md:grid-cols-2 gap-12 content-section">
+                <section class="glass-card p-6 md:p-8">
+                    <h2 class="text-3xl font-bold mb-6 neon-text border-b-2 border-green-500/20 pb-2" data-translate="sectionTitleKeterampilan">Keterampilan</h2>
+                    <ul class="space-y-3 text-gray-300">
+                        <li data-translate="skill1">Memiliki kemampuan mendesain grafis dengan Canva</li>
+                        <li data-translate="skill2">Memasak</li>
+                    </ul>
+                </section>
+                <section class="glass-card p-6 md:p-8">
+                    <h2 class="text-3xl font-bold mb-6 neon-text border-b-2 border-green-500/20 pb-2" data-translate="sectionTitlePengalaman">Riwayat Hidup / Pengalaman</h2>
+                    <ul class="space-y-3 text-gray-300">
+                       <li data-translate="exp1">Menjadi panitia 17 Agustusan</li>
+                       <li data-translate="exp2">Mengikuti study tour ke Bandung saat kelas 8</li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Prestasi Section -->
+            <section class="glass-card p-6 md:p-8 content-section">
+                <h2 class="text-3xl font-bold mb-6 neon-text border-b-2 border-green-500/20 pb-2" data-translate="sectionTitlePrestasi">Prestasi</h2>
+                <ul class="space-y-3 text-gray-300">
+                    <li data-translate="achieve1">Juara 10 besar lomba lari tingkat SD</li>
+                </ul>
+            </section>
+
+            <!-- Statistik Kegiatan Section -->
+            <section class="glass-card p-6 md:p-8 content-section">
+                <h2 class="text-3xl font-bold mb-6 neon-text border-b-2 border-green-500/20 pb-2" data-translate="sectionTitleStatistik">Statistik Kegiatan Sehari-hari</h2>
+                <div class="w-full max-w-md mx-auto h-80 glowing-chart">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Hobi Section -->
+            <section class="glass-card p-6 md:p-8 content-section">
+                <h2 class="text-3xl font-bold mb-6 neon-text border-b-2 border-green-500/20 pb-2" data-translate="sectionTitleHobi">Hobi</h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <ul class="space-y-3 text-lg text-gray-300">
+                            <li data-translate="hobby1">Memasak</li>
+                            <li data-translate="hobby2">Mancing</li>
+                            <li data-translate="hobby3">Jalan-jalan</li>
+                        </ul>
+                    </div>
+                    <div class="w-full max-w-sm mx-auto h-72 glowing-chart">
+                        <canvas id="hobbyRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-12">
+                     <div class="w-full max-w-xs mx-auto h-72 glowing-chart">
+                        <canvas id="hobbyPieChart"></canvas>
+                    </div>
+                    <div class="w-full h-72 glowing-chart">
+                        <canvas id="hobbyBarChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Moto, Minat, Harapan Section -->
+            <section class="content-section space-y-12">
+                <div class="glass-card p-6 md:p-8 text-center">
+                    <h3 class="text-2xl font-bold mb-4 neon-text" data-translate="sectionTitleMoto">Motto</h3>
+                    <p class="text-xl italic text-gray-300" data-translate="motoValue">"Berani bermimpi"</p>
+                </div>
+                <div class="glass-card p-6 md:p-8">
+                     <h3 class="text-2xl font-bold mb-4 neon-text" data-translate="sectionTitleMinat">Minat</h3>
+                     <ul class="list-disc list-inside space-y-2 text-gray-300">
+                         <li data-translate="interest1">Minat di bidang membaca: membaca novel dan buku pengetahuan.</li>
+                         <li data-translate="interest2">Minat di bidang teknologi: tertarik mempelajari komputer, internet, dan jaringan.</li>
+                     </ul>
+                </div>
+                <div class="glass-card p-6 md:p-8">
+                     <h3 class="text-2xl font-bold mb-4 neon-text" data-translate="sectionTitleHarapan">Harapan Masa Depan</h3>
+                     <p class="text-gray-300" data-translate="hopeValue">Menjadi pekerja yang sukses.</p>
+                </div>
+            </section>
+            
+            <!-- Tabel Data Section -->
+            <section class="glass-card p-6 md:p-8 content-section">
+                <h2 class="text-3xl font-bold mb-6 neon-text border-b-2 border-green-500/20 pb-2" data-translate="sectionTitleTabel">Tabel Data & Analisis</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-gray-300">
+                        <thead class="bg-gray-800/50">
+                            <tr>
+                                <th class="p-3" data-translate="tableHeaderKategori">Kategori</th>
+                                <th class="p-3" data-translate="tableHeaderDeskripsi">Deskripsi</th>
+                                <th class="p-3" data-translate="tableHeaderNilai">Nilai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-700">
+                                <td class="p-3 font-semibold" data-translate="tableCatKegiatan">Kegiatan Mingguan</td>
+                                <td class="p-3" data-translate="tableDescRata">Rata-rata jam kegiatan per hari</td>
+                                <td class="p-3">20.43 jam</td>
+                            </tr>
+                            <tr class="border-b border-gray-700">
+                                <td class="p-3 font-semibold" data-translate="tableCatHobi">Hobi</td>
+                                <td class="p-3" data-translate="tableDescModus">Modus (Hobi paling dominan)</td>
+                                <td class="p-3" data-translate="tableValueModus">Mancing (45%)</td>
+                            </tr>
+                            <tr class="border-b border-gray-700">
+                                <td class="p-3 font-semibold" data-translate="tableCatPrestasi">Prestasi</td>
+                                <td class="p-3" data-translate="tableDescPersentase">Presentase Prestasi Akademik</td>
+                                <td class="p-3">0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center py-12 mt-12 border-t-2 border-green-500/20">
+            <p class="text-gray-400 italic" data-translate="footerQuote">"Selalu bersyukur dan terus berjuang"</p>
+            <p class="neon-text mt-2">- Ihsan -</p>
+        </footer>
+
+    </div>
+
+    <script type="module">
+        // --- 1. THREE.JS NEON BACKGROUND ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const particles = [];
+        const particleCount = 700;
+        const particleColor = 0x39ff14; // Neon Green
+
+        for (let i = 0; i < particleCount; i++) {
+            let particle = new THREE.Mesh(
+                new THREE.BoxGeometry(0.02, 0.07, 0.02),
+                new THREE.MeshBasicMaterial({ color: particleColor })
+            );
+            particle.position.set(
+                (Math.random() - 0.5) * 20,
+                (Math.random() - 0.5) * 20,
+                (Math.random() - 0.5) * 20
+            );
+            particle.userData.velocity = new THREE.Vector3(
+                0, -0.01 - Math.random() * 0.03, 0
+            );
+            particles.push(particle);
+            scene.add(particle);
+        }
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.forEach(p => {
+                p.position.add(p.userData.velocity);
+                if (p.position.y < -10) {
+                    p.position.y = 10;
+                    p.position.x = (Math.random() - 0.5) * 20;
+                }
+            });
+            renderer.render(scene, camera);
+        }
+        animate();
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+
+
+        // --- 2. GSAP SCROLL ANIMATIONS ---
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from("header", { duration: 1, y: -50, opacity: 0, ease: "power2.out" });
+        gsap.utils.toArray('.content-section').forEach(section => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                duration: 0.8, y: 50, opacity: 0, ease: "power2.out"
+            });
+        });
+
+        // --- 3. CHART.JS IMPLEMENTATION ---
+        const chartFontColor = '#c9d1d9';
+        Chart.defaults.color = chartFontColor;
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        const chartTitleColor = '#39ff14';
+
+        // Chart 1: Daily Activities
+        const activityCtx = document.getElementById('activityChart').getContext('2d');
+        const activityData = {
+            labels: ['Tidur', 'Sekolah', 'Belajar Mandiri', 'Hobi', 'Membersihkan Rumah', 'Lain-lain'],
+            datasets: [{
+                label: 'Jam per Hari',
+                data: [8, 8, 2, 3, 1, 4],
+                backgroundColor: [
+                    'rgba(57, 255, 20, 0.7)', 'rgba(57, 255, 20, 0.6)', 'rgba(57, 255, 20, 0.5)',
+                    'rgba(57, 255, 20, 0.4)', 'rgba(57, 255, 20, 0.3)', 'rgba(57, 255, 20, 0.2)'
+                ],
+                borderColor: '#0d1117',
+                borderWidth: 3,
+            }]
+        };
+        new Chart(activityCtx, {
+            type: 'doughnut',
+            data: activityData,
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Alokasi Waktu Harian (Jam)', font: { size: 16 }, color: chartTitleColor }
+                }
+            }
+        });
+        
+        // Chart 2: Hobby Interest (Radar)
+        const hobbyRadarCtx = document.getElementById('hobbyRadarChart').getContext('2d');
+        new Chart(hobbyRadarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Memasak', 'Mancing', 'Jalan-jalan'],
+                datasets: [{
+                    label: 'Tingkat Minat (1-10)',
+                    data: [7, 10, 8],
+                    backgroundColor: 'rgba(57, 255, 20, 0.2)',
+                    borderColor: 'rgb(57, 255, 20)',
+                    pointBackgroundColor: 'rgb(57, 255, 20)',
+                    pointBorderColor: '#fff',
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                 scales: {
+                    r: {
+                        angleLines: { color: 'rgba(57, 255, 20, 0.2)' },
+                        grid: { color: 'rgba(57, 255, 20, 0.2)' },
+                        pointLabels: { font: { size: 12 } },
+                        suggestedMin: 0, suggestedMax: 10
+                    }
+                },
+                 plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Tingkat Minat Hobi', font: { size: 16 }, color: chartTitleColor }
+                }
+            }
+        });
+
+        // Chart 3 & 4: Hobby Distribution (Pie & Bar)
+        const hobbyDistData = {
+            labels: ['Mancing', 'Jalan-jalan', 'Memasak'],
+            datasets: [{
+                label: 'Persentase Hobi',
+                data: [45, 30, 25],
+                backgroundColor: ['rgba(57, 255, 20, 0.7)', 'rgba(57, 255, 20, 0.5)', 'rgba(57, 255, 20, 0.3)'],
+                borderColor: '#0d1117', borderWidth: 3,
+            }]
+        };
+        const hobbyPieCtx = document.getElementById('hobbyPieChart').getContext('2d');
+        new Chart(hobbyPieCtx, {
+            type: 'pie', data: hobbyDistData,
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Distribusi Waktu Hobi (%)', font: { size: 16 }, color: chartTitleColor }
+                }
+            }
+        });
+        const hobbyBarCtx = document.getElementById('hobbyBarChart').getContext('2d');
+        new Chart(hobbyBarCtx, {
+            type: 'bar', data: hobbyDistData,
+            options: {
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Distribusi Waktu Hobi (%)', font: { size: 16 }, color: chartTitleColor }
+                },
+                 scales: { x: { suggestedMax: 50 } }
+            }
+        });
+
+        // --- 4. LANGUAGE SWITCHER ---
+        const translations = {
+            id: {
+                pageTitle: "Biodata Interaktif - M. Fathul Ihsan",
+                role: "Siswa SMK Ma'arif NU Tirto",
+                sectionTitleBiodata: "Biodata Diri",
+                bioNameLabel: "Nama", bioDobLabel: "Tempat, Tanggal Lahir", bioDobValue: "Pekalongan, 15 November 2008",
+                bioAddressLabel: "Alamat", bioAddressValue: "Desa Karang Jompo, RT 1 RW 5, Tirto, Pekalongan",
+                bioGenderLabel: "Jenis Kelamin", bioGenderValue: "Laki-laki",
+                bioReligionLabel: "Agama", bioReligionValue: "Islam",
+                bioNationalityLabel: "Kewarganegaraan", bioNationalityValue: "Indonesia",
+                bioStatusLabel: "Status", bioStatusValue: "Pelajar", bioPhoneLabel: "No. Telepon",
+                sectionTitlePendidikan: "Pendidikan",
+                eduSD: "SDN Karang Jompo", eduSMP: "SMPN 3 Tirto", eduSMK: "SMK Ma'arif NU Tirto", eduSMKYear: "(2024)",
+                sectionTitleKeterampilan: "Keterampilan",
+                skill1: "Memiliki kemampuan mendesain grafis dengan Canva", skill2: "Memasak",
+                sectionTitlePengalaman: "Riwayat Hidup / Pengalaman",
+                exp1: "Menjadi panitia 17 Agustusan", exp2: "Mengikuti study tour ke Bandung saat kelas 8",
+                sectionTitlePrestasi: "Prestasi",
+                achieve1: "Juara 10 besar lomba lari tingkat SD",
+                sectionTitleStatistik: "Statistik Kegiatan Sehari-hari",
+                sectionTitleHobi: "Hobi",
+                hobby1: "Memasak", hobby2: "Mancing", hobby3: "Jalan-jalan",
+                sectionTitleMoto: "Motto", motoValue: '"Berani bermimpi"',
+                sectionTitleMinat: "Minat",
+                interest1: "Minat di bidang membaca: membaca novel dan buku pengetahuan.",
+                interest2: "Minat di bidang teknologi: tertarik mempelajari komputer, internet, dan jaringan.",
+                sectionTitleHarapan: "Harapan Masa Depan", hopeValue: "Menjadi pekerja yang sukses.",
+                sectionTitleTabel: "Tabel Data & Analisis",
+                tableHeaderKategori: "Kategori", tableHeaderDeskripsi: "Deskripsi", tableHeaderNilai: "Nilai",
+                tableCatKegiatan: "Kegiatan Mingguan", tableDescRata: "Rata-rata jam kegiatan per hari",
+                tableCatHobi: "Hobi", tableDescModus: "Modus (Hobi paling dominan)",
+                tableValueModus: "Mancing (45%)", tableCatPrestasi: "Prestasi",
+                tableDescPersentase: "Presentase Prestasi Akademik",
+                footerQuote: '"Selalu bersyukur dan terus berjuang"',
+            },
+            en: {
+                pageTitle: "Interactive Biodata - M. Fathul Ihsan",
+                role: "Student at SMK Ma'arif NU Tirto",
+                sectionTitleBiodata: "Personal Data",
+                bioNameLabel: "Name", bioDobLabel: "Place, Date of Birth", bioDobValue: "Pekalongan, November 05, 2008",
+                bioAddressLabel: "Address", bioAddressValue: "Karang Jompo Village, RT 1 RW 5, Tirto, Pekalongan",
+                bioGenderLabel: "Gender", bioGenderValue: "Male",
+                bioReligionLabel: "Religion", bioReligionValue: "Islam",
+                bioNationalityLabel: "Nationality", bioNationalityValue: "Indonesian",
+                bioStatusLabel: "Status", bioStatusValue: "Student", bioPhoneLabel: "Phone No.",
+                sectionTitlePendidikan: "Education",
+                eduSD: "Karang Jompo Elementary School", eduSMP: "Tirto 3 Junior High School", eduSMK: "SMK Ma'arif NU Tirto", eduSMKYear: "(2024)",
+                sectionTitleKeterampilan: "Skills",
+                skill1: "Proficient in graphic design using Canva", skill2: "Cooking",
+                sectionTitlePengalaman: "Life History / Experience",
+                exp1: "Became a committee member for Independence Day celebrations", exp2: "Joined a study tour to Bandung in 8th grade",
+                sectionTitlePrestasi: "Achievements",
+                achieve1: "Top 10 winner in an elementary school running competition",
+                sectionTitleStatistik: "Daily Activity Statistics",
+                sectionTitleHobi: "Hobbies",
+                hobby1: "Cooking", hobby2: "Fishing", hobby3: "Traveling",
+                sectionTitleMoto: "Motto", motoValue: '"Dare to dream"',
+                sectionTitleMinat: "Interests",
+                interest1: "Interest in reading: novels and knowledge books.",
+                interest2: "Interest in technology: learning about computers, internet, and networking.",
+                sectionTitleHarapan: "Future Hopes", hopeValue: "To be a successful worker.",
+                sectionTitleTabel: "Data Table & Analysis",
+                tableHeaderKategori: "Category", tableHeaderDeskripsi: "Description", tableHeaderNilai: "Value",
+                tableCatKegiatan: "Weekly Activities", tableDescRata: "Average activity hours per day",
+                tableCatHobi: "Hobby", tableDescModus: "Mode (Most dominant hobby)",
+                tableValueModus: "Fishing (45%)", tableCatPrestasi: "Achievements",
+                tableDescPersentase: "Academic Achievement Percentage",
+                footerQuote: '"Always be grateful and keep fighting"',
+            },
+            jv: {
+                pageTitle: "Biodata Interaktif - M. Fathul Ihsan",
+                role: `<div class='aksara-jawa'>ꦱꦶꦱ꧀ꦮ ꦱꦼꦏꦺꦴꦭꦃ ꦩꦼꦤꦼꦔꦃ ꦏꦼꦗꦸꦫꦸꦮꦤ꧀ ꦩꦄꦫꦶꦥ꧀ ꦤꦸ ꦠꦶꦂꦠ</div><div class='italic text-sm'>(Siswa SMK Ma'arif NU Tirto)</div>`,
+                sectionTitleBiodata: `<div class='aksara-jawa'>ꦧꦶꦪꦺꦴꦢꦠ ꦥꦿꦶꦧꦢꦶ</div><div class='italic text-sm'>(Biodata Pribadi)</div>`,
+                bioNameLabel: `<div class='aksara-jawa'>ꦗꦼꦤꦼꦁ</div><div class='italic text-sm'>(Jeneng)</div>`,
+                bioDobLabel: `<div class='aksara-jawa'>ꦥꦥꦤ꧀꧈ ꦠꦁꦒꦭ꧀ ꦭꦲꦶꦂ</div><div class='italic text-sm'>(Papan, Tanggal Lair)</div>`,
+                bioDobValue: "Pekalongan, 15 November 2008",
+                bioAddressLabel: `<div class='aksara-jawa'>ꦲꦭꦩꦠ꧀</div><div class='italic text-sm'>(Alamat)</div>`,
+                bioAddressValue: "Desa Karang Jompo, RT 1 RW 5, Tirto, Pekalongan",
+                bioGenderLabel: `<div class='aksara-jawa'>ꦗꦶꦤꦶꦱ꧀ ꦏꦼꦭꦩꦶꦤ꧀</div><div class='italic text-sm'>(Jinis Kelamin)</div>`,
+                bioGenderValue: `<div class='aksara-jawa'>ꦭꦤꦁ</div><div class='italic text-sm'>(Lanang)</div>`,
+                sectionTitlePendidikan: `<div class='aksara-jawa'>ꦥꦼꦤ꧀ꦝꦶꦝꦶꦏꦤ꧀</div><div class='italic text-sm'>(Pendhidhikan)</div>`,
+                eduSD: "SDN Karang Jompo", eduSMP: "SMPN 3 Tirto",
+                sectionTitleKeterampilan: `<div class='aksara-jawa'>ꦏꦠꦿꦩ꧀ꦥꦶꦭꦤ꧀</div><div class='italic text-sm'>(Katrampilan)</div>`,
+                skill1: "Saged ngrancang grafis ngangge Canva", skill2: "Masak",
+                sectionTitlePengalaman: `<div class='aksara-jawa'>ꦥꦔꦭꦩꦤ꧀</div><div class='italic text-sm'>(Pengalaman)</div>`,
+                exp1: "Dados panitia pitulasan", exp2: "Mèlu study tour menyang Bandung nalika kelas 8",
+                sectionTitlePrestasi: `<div class='aksara-jawa'>ꦥꦿꦺꦱ꧀ꦠꦱꦶ</div><div class='italic text-sm'>(Prèstasi)</div>`,
+                achieve1: "Juara 10 ageng lomba mlayu tingkat SD",
+                sectionTitleHobi: `<div class='aksara-jawa'>ꦏꦼꦱꦼꦤꦼꦔꦤ꧀</div><div class='italic text-sm'>(Kesenengan)</div>`,
+                hobby1: "Masak", hobby2: "Mancing", hobby3: "Dolan-dolan",
+                sectionTitleMoto: `<div class='aksara-jawa'>ꦱꦼꦱꦤ꧀ꦠꦶ</div><div class='italic text-sm'>(Sesanti)</div>`,
+                motoValue: '"Wani ngimpi"',
+                sectionTitleHarapan: `<div class='aksara-jawa'>ꦥꦔꦗꦥ꧀</div><div class='italic text-sm'>(Pangajap)</div>`,
+                hopeValue: "Dados tiyang ingkang sukses nyambut damel.",
+                tableValueModus: "Mancing (45%)",
+                footerQuote: '"Tansah saos sokur lan teras berjuang"',
+            },
+            ar: {
+                pageTitle: "بيانات شخصية تفاعلية - محمد فتح الإحسان",
+                role: "<div class='arabic-text'>طالب في مدرسة المعارف نهضة العلماء تيرتو المهنية</div>",
+                sectionTitleBiodata: "<div class='arabic-text'>البيانات الشخصية</div>",
+                bioNameLabel: "<div class='arabic-text'>الاسم</div>",
+                bioDobValue: "<div class='arabic-text'>بيكالونجان، ٠٥ نوفمبر ٢٠٠٨</div>",
+                bioAddressValue: "<div class='arabic-text'>قرية كارانغ جومبو، RT 1 RW 5، تيرتو، بيكالونجان</div>",
+                bioGenderLabel: "<div class='arabic-text'>الجنس</div>",
+                bioGenderValue: "<div class='arabic-text'>ذكر</div>",
+                sectionTitlePendidikan: "<div class='arabic-text'>التعليم</div>",
+                eduSD: "<div class='arabic-text'>مدرسة كارانغ جومبو الابتدائية الحكومية</div>",
+                eduSMP: "<div class='arabic-text'>مدرسة تيرتو الإعدادية الحكومية ٣</div>",
+                sectionTitleKeterampilan: "<div class='arabic-text'>المهارات</div>",
+                skill1: "<div class='arabic-text'>القدرة على التصميم الجرافيكي باستخدام كانفا</div>",
+                skill2: "<div class='arabic-text'>الطبخ</div>",
+                sectionTitlePengalaman: "<div class='arabic-text'>السيرة الذاتية / الخبرة</div>",
+                exp1: "<div class='arabic-text'>أصبح عضوًا في لجنة احتفالات عيد الاستقلال</div>",
+                exp2: "<div class='arabic-text'>المشاركة في رحلة دراسية إلى باندونغ في الصف الثامن</div>",
+                sectionTitlePrestasi: "<div class='arabic-text'>الإنجازات</div>",
+                achieve1: "<div class='arabic-text'>من بين أفضل ١٠ فائزين في مسابقة جري بالمدرسة الابتدائية</div>",
+                sectionTitleHobi: "<div class='arabic-text'>الهوايات</div>",
+                hobby1: "<div class='arabic-text'>الطبخ</div>",
+                hobby2: "<div class='arabic-text'>صيد السمك</div>",
+                hobby3: "<div class='arabic-text'>التنزه</div>",
+                sectionTitleMoto: "<div class='arabic-text'>الشعار</div>",
+                motoValue: '<div class="arabic-text">"تجرأ على الحلم"</div>',
+                sectionTitleHarapan: "<div class='arabic-text'>آمال المستقبل</div>",
+                hopeValue: "<div class='arabic-text'>أن أكون عاملاً ناجحًا.</div>",
+                tableValueModus: "<div class='arabic-text'>صيد السمك (٤٥٪)</div>",
+                footerQuote: '<div class="arabic-text">"كن شاكرا دائما وحافظ على القتال"</div>',
+            }
+        };
+
+        window.switchLanguage = function(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                let translation = translations[lang]?.[key] ?? translations['id'][key]; // Fallback to ID
+                 if (translation) { el.innerHTML = translation; }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn[onclick="switchLanguage('${lang}')"]`).classList.add('active');
+        }
+        
+        window.onload = () => {
+             // Combine common translations to avoid repetition for languages that share them
+            const commonJv = { ...translations.id, ...translations.jv }; translations.jv = commonJv;
+            const commonAr = { ...translations.en, ...translations.ar }; translations.ar = commonAr;
+            switchLanguage('id');
+        }
+    </script>
+</body>
+</html>
+
